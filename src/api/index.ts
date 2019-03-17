@@ -26,9 +26,3 @@ export const fetchApi = (endPoint: any, payload: any = {}, method = 'get', heade
     });
     return fetch(request).then(handleErrors);
 };
-
-export const actionTypes = (type: string) => ({
-    REQUEST: `${type}_REQUEST`,
-    SUCCESS: `${type}_SUCCESS`,
-    FAILURE: `${type}_FAILURE`
-});
