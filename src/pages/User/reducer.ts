@@ -6,24 +6,22 @@ import { LoginUserAction, LOGIN_USER, LOGOUT_USER, LogoutUserAction } from './Lo
 let cachedToken = localStorage.getItem('token');
 
 export type UserState = {
-    token?: string | null;
-    userName?: string | null;
-    userRole?: string | null;
+    token?: string;
+    userName?: string;
+    userRole?: string;
     isAuthenticated?: boolean;
     isRegistered?: boolean;
     isLoading?: boolean;
-    statusText?: string | null;
+    statusText?: string;
     hasFailed?: boolean;
 };
 
 const initialState: UserState = {
-    token: null,
     userName: cachedToken != null ? jwtDecode<any>(cachedToken).unique_name : null,
     userRole: cachedToken != null ? jwtDecode<any>(cachedToken).role : null,
     isAuthenticated: (cachedToken != null) ? true : false,
     isRegistered: false,
     isLoading: false,
-    statusText: null
 };
 
 export type User = {
@@ -49,9 +47,9 @@ export const reducer = (state: UserState = initialState, action: ActionType): Us
         case LOGOUT_USER: {
             return {
                 ...state,
-                token: null,
+                token: undefined,
                 isAuthenticated: false,
-                userName: null,
+                userName: undefined,
                 statusText: 'You have been successfully logged out.'
             }
         }
