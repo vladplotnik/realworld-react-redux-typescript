@@ -7,16 +7,28 @@ import Pagination from '../../../components/Pagination';
 import { getArticles } from './actions';
 
 interface StateFromProps {
-    articles: Article[]
+    articles: Article[],
+    pageLimit: number,
+    pageNumber: number
 }
 
 interface DispatchFromProps {
-    getArticles: (limit: number) => void
+    getArticles: (pageLimit: number, pageNumber: number) => void
 }
 
 class ArticleList extends React.Component<StateFromProps & DispatchFromProps> {
     componentDidMount() {
-        this.props.getArticles(10);
+        const { pageLimit, pageNumber } = this.props;
+        this.props.getArticles(pageLimit, pageNumber);
+    }
+
+    shouldComponentUpdate(nextProps: StateFromProps & DispatchFromProps){
+        return this.props.articles !== nextProps.articles;
+    }
+
+    handlePage = (pageNumber: number) => {
+        const { pageLimit } = this.props;
+        this.props.getArticles(pageLimit, pageNumber);
     }
 
     render() {
@@ -44,7 +56,7 @@ class ArticleList extends React.Component<StateFromProps & DispatchFromProps> {
                     </ul>
                 </div>
                 {articles}
-                < Pagination activePage={1} totalPages={10} />
+                < Pagination activePage={this.props.pageNumber} totalPages={this.props.pageLimit} handlePage={this.handlePage} />
             </div>
         );
     }
@@ -52,13 +64,15 @@ class ArticleList extends React.Component<StateFromProps & DispatchFromProps> {
 
 const mapStateToProps = (state: AppState): StateFromProps => {
     return {
-        articles: state.feed.articles
+        articles: state.feed.articles,
+        pageLimit: state.feed.pageLimit,
+        pageNumber: state.feed.pageNumber
     };
 };
 
 const mapDispatchToProps = (dispatch: any): DispatchFromProps => {
     return {
-        getArticles: (limit: number) => dispatch(getArticles(limit))
+        getArticles: (pageLimit: number, pageNumber: number) => dispatch(getArticles(pageLimit, pageNumber))
     };
 };
 
