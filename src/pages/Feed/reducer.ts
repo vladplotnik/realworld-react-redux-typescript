@@ -69,6 +69,8 @@ export const reducer = (state: FeedState = initialState, action: ActionType) => 
                 redirectTo: '/'
             };
         }
+        default:
+            const exhaustiveCheck: never = action;
     }
 
     return state;
