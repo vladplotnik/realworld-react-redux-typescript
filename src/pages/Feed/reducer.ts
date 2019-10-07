@@ -1,6 +1,6 @@
 import { GetTagsAction, GET_TAGS } from './Tags/actions';
 import { GetArticlesAction, GET_ARTICLES_SUCCESS, GET_ARTICLES_REQUEST, GetArticlesRequestAction } from './ArticleList/actions';
-import { GetArticleAction, DeleteArticleAction, GET_ARTICLE, DELETE_ARTICLE } from './Article/actions';
+import { GetArticleRequestAction, GetArticleSuccessAction, DeleteArticleAction, GET_ARTICLE, DELETE_ARTICLE } from './Article/actions';
 
 export type FeedState = {
     articles: Article[];
@@ -35,7 +35,7 @@ export type Article = {
     favoritesCount: number;
 };
 
-type ActionType = GetTagsAction | GetArticlesRequestAction | GetArticlesAction | GetArticleAction | DeleteArticleAction;
+type ActionType = GetTagsAction | GetArticlesRequestAction | GetArticlesAction | GetArticleRequestAction | GetArticleSuccessAction | DeleteArticleAction;
 
 export const reducer = (state: FeedState = initialState, action: ActionType) => {
     switch (action.type) {
@@ -57,19 +57,26 @@ export const reducer = (state: FeedState = initialState, action: ActionType) => 
                 tags: action.tags,
             };
         }
-        case GET_ARTICLE: {
+        case GET_ARTICLE.REQUEST: {
+            return {
+                ...state,
+                currentArticle: undefined,
+            };
+        }
+        case GET_ARTICLE.SUCCESS: {
             return {
                 ...state,
                 currentArticle: action.article,
             };
         }
-        case DELETE_ARTICLE: {
+        case DELETE_ARTICLE.SUCCESS: {
             return {
                 ...state,
                 redirectTo: '/'
             };
         }
         default:
+            // the code below will check that all actions were reduced
             const exhaustiveCheck: never = action;
     }
 

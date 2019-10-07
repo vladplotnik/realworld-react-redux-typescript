@@ -2,20 +2,38 @@ import { fetchApi } from '../../../api';
 import { getActionFailed, Action, deleteActionFailed } from '../../actions';
 import { Article } from '../reducer';
 
-export const GET_ARTICLE = 'GET_ARTICLE';
-export const DELETE_ARTICLE = 'DELETE_ARTICLE';
-
-export interface GetArticleAction extends Action<typeof GET_ARTICLE> {
-    article: Article;
+export enum GET_ARTICLE {
+    REQUEST = 'REQUEST',
+    SUCCESS = 'SUCCESS',
 }
 
-export interface DeleteArticleAction extends Action<typeof DELETE_ARTICLE> {
+export enum DELETE_ARTICLE {
+    REQUEST = 'REQUEST',
+    SUCCESS = 'SUCCESS',
 }
 
-export const getArticleSuccess = (article: Article): GetArticleAction => {
+export interface GetArticleRequestAction extends Action<typeof GET_ARTICLE.REQUEST> {
+}
+
+export const getArticleRequest = (article: Article): GetArticleRequestAction => {
     return {
-        type: GET_ARTICLE,
-        article
+        type: GET_ARTICLE.REQUEST
+    };
+}
+
+export interface GetArticleSuccessAction extends Action<typeof GET_ARTICLE.SUCCESS> {
+    article: Article;
+    test: string;
+}
+
+export interface DeleteArticleAction extends Action<typeof DELETE_ARTICLE.SUCCESS> {
+}
+
+export const getArticleSuccess = (article: Article): GetArticleSuccessAction => {
+    return {
+        type: GET_ARTICLE.SUCCESS,
+        article,
+        test: ''
     };
 }
 
@@ -32,7 +50,7 @@ export const getArticle = (slug: string) => {
 
 export const deleteArticleSuccess = (): DeleteArticleAction => {
     return {
-        type: DELETE_ARTICLE
+        type: DELETE_ARTICLE.SUCCESS
     };
 }
 
