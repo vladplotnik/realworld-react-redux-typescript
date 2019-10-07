@@ -13,11 +13,13 @@ export enum DELETE_ARTICLE {
 }
 
 export interface GetArticleRequestAction extends Action<typeof GET_ARTICLE.REQUEST> {
+    article?: Article;
 }
 
-export const getArticleRequest = (article: Article): GetArticleRequestAction => {
+export const getArticleRequest = (): GetArticleRequestAction => {
     return {
-        type: GET_ARTICLE.REQUEST
+        type: GET_ARTICLE.REQUEST,
+        article: undefined
     };
 }
 

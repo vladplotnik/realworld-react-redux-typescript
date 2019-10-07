@@ -60,7 +60,7 @@ export const reducer = (state: FeedState = initialState, action: ActionType) => 
         case GET_ARTICLE.REQUEST: {
             return {
                 ...state,
-                currentArticle: undefined,
+                currentArticle: action.article,
             };
         }
         case GET_ARTICLE.SUCCESS: {
