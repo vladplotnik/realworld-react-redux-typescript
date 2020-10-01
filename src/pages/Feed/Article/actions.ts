@@ -1,5 +1,5 @@
 import { fetchApi } from '../../../api';
-import { getActionFailed, Action, deleteActionFailed } from '../../actions';
+import { getActionFailed, Action, saveActionFailed } from '../../actions';
 import { Article } from '../reducer';
 
 export enum GET_ARTICLE {
@@ -62,7 +62,7 @@ export const deleteArticle = (slug: string) => {
             .then((response) => response.json())
             .then((response) => dispatch(deleteArticleSuccess()))
             .catch((error: any) => {
-                dispatch(deleteActionFailed(error.response));
+                dispatch(saveActionFailed(error.response.status, error.message));
             });
     };
 };

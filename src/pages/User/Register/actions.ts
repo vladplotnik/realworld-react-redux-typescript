@@ -1,6 +1,6 @@
 import { fetchApi } from "../../../api";
 import { User } from "../reducer";
-import { Action, postActionFailed } from "../../actions";
+import { Action, saveActionFailed } from "../../actions";
 
 export const REGISTER_USER = 'REGISTER_USER';
 
@@ -20,7 +20,7 @@ export const registerUser = (user: User) => {
         fetchApi(`/users`, user, 'post')
             .then(() => dispatch(registerUserSuccess(user)))
             .catch((error: any) => {
-                dispatch(postActionFailed(error.response));
+                dispatch(saveActionFailed(error.response.status, error.message));
             });
     };
 };

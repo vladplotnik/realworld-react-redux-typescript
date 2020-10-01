@@ -1,5 +1,5 @@
 import { fetchApi } from "../../../api";
-import { Action, postActionFailed } from "../../actions";
+import { Action, saveActionFailed } from "../../actions";
 
 export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
@@ -30,7 +30,7 @@ export const loginUser = (username: string, password: string) => {
             .then((response) => response.json())
             .then((response) => dispatch(loginUserSuccess(response.access_token)))
             .catch((error: any) => {
-                dispatch(postActionFailed(error.response));
+                dispatch(saveActionFailed(error.response.status, error.message));
             });
     };
 };

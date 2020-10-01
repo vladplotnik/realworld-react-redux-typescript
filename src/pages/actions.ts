@@ -1,26 +1,38 @@
-export interface Action<Type = string> { type: Type };
-
 export const GET_ACTION_FAILURE = 'GET_ACTION_FAILURE';
-export const POST_ACTION_FAILURE = 'POST_ACTION_FAILURE';
-export const DELETE_ACTION_FAILURE = 'DELETE_ACTION_FAILURE';
+export const SAVE_ACTION_FAILURE = 'SAVE_ACTION_FAILURE';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
-export const getActionFailed = (error: Response) => {
+export interface Action<Type> { type: Type };
+
+export interface GetActionFailedAction extends Action<typeof GET_ACTION_FAILURE> {
+    statusText: string;
+    status: number;
+}
+
+export const getActionFailed = (error: Response): GetActionFailedAction => {
     return {
         type: GET_ACTION_FAILURE,
-        error: error
+        statusText: error ? error.statusText : '',
+        status: error ? error.status: 0
     };
 };
 
-export const postActionFailed = (error: Response) => {
+export interface SaveActionFailedAction extends Action<typeof SAVE_ACTION_FAILURE> {
+    statusText: string;
+    status: number;
+}
+
+export const saveActionFailed = (status: number, message: string): SaveActionFailedAction => {
     return {
-        type: POST_ACTION_FAILURE,
-        error: error
+        type: SAVE_ACTION_FAILURE,
+        statusText: message,
+        status: status
     };
 };
 
-export const deleteActionFailed = (error: Response) => {
+export interface ClearErrorsAction extends Action<typeof CLEAR_ERRORS> { }
+export const clearErrors = () => {
     return {
-        type: DELETE_ACTION_FAILURE,
-        error: error
+        type: CLEAR_ERRORS
     };
 };
